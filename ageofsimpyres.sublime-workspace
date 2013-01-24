@@ -1,0 +1,480 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"recei",
+				"receivedUpdate"
+			],
+			[
+				"rec",
+				"receivedUpdate"
+			],
+			[
+				"addr",
+				"addrUser"
+			],
+			[
+				"ke",
+				"key_stat"
+			],
+			[
+				"dis",
+				"distanceMoved"
+			],
+			[
+				"coll",
+				"collideBox"
+			],
+			[
+				"m",
+				"mRes"
+			],
+			[
+				"Tc",
+				"TColor"
+			],
+			[
+				"pic",
+				"picPos"
+			],
+			[
+				"tog",
+				"togState"
+			],
+			[
+				"Actions",
+				"actions"
+			],
+			[
+				"menu",
+				"menuItem"
+			],
+			[
+				"collid",
+				"collidepoint"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 104.0,
+		"selected_items":
+		[
+			[
+				"proje",
+				"Project: Save As"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"git ",
+				"Git: Status"
+			],
+			[
+				"git",
+				"Git: Commit"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"view ",
+				"View: Toggle Menu"
+			],
+			[
+				"view me",
+				"View: Toggle Menu"
+			],
+			[
+				"view",
+				"View: Toggle Menu"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"user",
+				"Preferences: Settings - User"
+			],
+			[
+				"toggle",
+				"View: Toggle Minimap"
+			],
+			[
+				"status",
+				"View: Toggle Status Bar"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"lint",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"git diff ci",
+				"Git: Diff Current File"
+			],
+			[
+				"git commit his",
+				"Git: Commit history"
+			],
+			[
+				"git commit hi",
+				"Git: Commit history"
+			],
+			[
+				"git statu",
+				"Git: Status"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"lin",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"init",
+				"Git: Init"
+			],
+			[
+				"ini",
+				"Git: Init"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"lex",
+				"SublimeLinter: Extract Annotations"
+			],
+			[
+				"file: sa",
+				"File: Save All"
+			],
+			[
+				"li",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"linte",
+				"SublimeLinter: Extract Annotations"
+			],
+			[
+				"sh",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"sho",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"show",
+				"SublimeLinter: Show Error List"
+			],
+			[
+				"linter",
+				"SublimeLinter: Background Linting"
+			],
+			[
+				"disa",
+				"SublimeLinter: Disable Linting"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 137.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/cardid/Documents/pyPlatform/camera.py",
+		"/C/Users/cardid/Desktop/Transformers/EMCBoard/Megatron/fullbios.bin",
+		"/C/Users/cardid/Documents/pyPlatform/dis",
+		"/C/Users/cardid/Documents/pyPlatform/display.py",
+		"/C/Users/cardid/Documents/pyPlatform/weapon.py",
+		"/C/Users/cardid/Documents/pyPlatform/input.py",
+		"/C/Users/cardid/Documents/pyPlatform/editor.py",
+		"/C/Users/cardid/Documents/pyPlatform/menu.py",
+		"/C/Users/cardid/Documents/pyPlatform/world.py",
+		"/C/Users/cardid/Documents/pyPlatform/animation.py",
+		"/C/Users/cardid/Documents/pyPlatform/game.py",
+		"/C/Users/cardid/Documents/pyPlatform/main.py",
+		"/C/Users/cardid/Documents/pyPlatform/camer",
+		"/C/Users/cardid/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/cardid/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/cardid/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/cardid/Documents/pyPlatform/.git/config",
+		"/C/Users/Dan/Documents/Programming/pygame/background.py",
+		"/C/Users/Dan/Documents/Programming/pygame/gconstants.py",
+		"/C/Users/Dan/Documents/Programming/pygame/modifyfiles.py",
+		"/C/Users/Dan/Documents/Programming/pygame/fan.py",
+		"/C/Users/Dan/Documents/Programming/pygame/ai.py",
+		"/C/Users/Dan/Documents/Programming/pygame/move.py",
+		"/C/Users/Dan/Documents/Programming/pygame/collision.py",
+		"/C/Users/Dan/Documents/Programming/pygame/weapon.py",
+		"/C/Users/Dan/Documents/Programming/pygame/mchar.py",
+		"/C/Users/Dan/Documents/Programming/pygame/enemy.py",
+		"/C/Users/Dan/Documents/Programming/pygame/display.py",
+		"/C/Users/Dan/Documents/Programming/pygame/input new.py",
+		"/C/Users/Dan/Documents/Programming/pygame/.git/config",
+		"/C/Users/Dan/Documents/Programming/pygame/menu.py",
+		"/C/Users/Dan/SkyDrive/Desktop/pgs4a-0.9.4/buildlib/build.py",
+		"/C/Users/Dan/SkyDrive/Desktop/pgs4a-0.9.4/mygame/main.py",
+		"/C/Users/Dan/SkyDrive/Desktop/pgs4a-0.9.4/mygame/pyPlatform/__init__.py",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/Terminal/Terminal.sublime-settings",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/Terminal/Default (Windows).sublime-keymap",
+		"/C/Users/Dan/Documents/Programming/pygame/map.py",
+		"/C/Users/Dan/Documents/Programming/pygame/camera.py",
+		"/C/Users/Dan/Documents/Programming/pygame/object.py",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/Git/Git.sublime-settings",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/User/Git.sublime-settings",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/move.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/wall.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/gconstants.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/collision.py",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/SideBarEnhancements/messages/11.13.2012.1305.0.txt",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/map.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/game.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/menu.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/background.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/animation.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/gravity.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/input.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/display.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/Archived/New Setup - 2.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/Archived/New Setup - 0.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/Archived/new setup - 3 maybe.pyc",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/object.py",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/sublimeproject.sublime-project",
+		"/C/Users/Dan/Dropbox/Public/Python/New New",
+		"/C/Users/Dan/SkyDrive/Public/Python/New New/camera.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/menu.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/world.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/modifyfiles.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/gconstants.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/eid",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/editor.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/map.pyc",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/sublimeproject.sublime-project",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/mchar.py",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/collision.pyc",
+		"/C/Users/Dan/Dropbox/Public/Python/New New/e",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/Python/Python.sublime-build",
+		"/C/Users/Dan/Documents/school/Sophomore/CS 1500/Lab 6/Lab6_daniel_cardin.cpp",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/C++/C++.sublime-build",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/User/MinGW.sublime-build",
+		"/C/Users/Dan/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<project>",
+			"C:\\Users\\Dan\\Documents\\Programming\\pygame"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"dim",
+			"surf",
+			"ctrl+b",
+			"global",
+			"font.Font",
+			"col",
+			"cur",
+			"))\n",
+			"prints",
+			"blit",
+			"ctrl+b",
+			"alt+s",
+			"ctrl+p"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.259980572734,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 132.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/cardid/Documents/pyPlatform/sublimeproject.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 168.0,
+	"status_bar_visible": false
+}
