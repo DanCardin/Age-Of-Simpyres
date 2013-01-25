@@ -17,4 +17,3 @@ class Enemy(Rect):
 
     def tick(self):
         self.ai.tick()
-

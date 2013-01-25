@@ -1,4 +1,4 @@
-import pygame
+from pygame import *
 from map import *
 from camera import *
 from editor import *
@@ -10,13 +10,26 @@ class Level(object):
     def __init__(self, Level):
         self.entities = []
         self.map = Map(self.tLEVELS[0], self.tLEVELS[1])
-        self.map.initDrawMap()
         for i in []:#self.map.objects:
             self.addEntity(i)
-        self.camera = Camera((0, 0, screenSize[0] * res, screenSize[1] * res), (150, 200, 150, 200), (self.map.size[0] * res, self.map.size[1] * res))
+        self.camera = Camera((0, 0, screenSize[0] * res, screenSize[1] * res), (screenSize[0] * res / 2, screenSize[1] * res / 2, 1, 1), (self.map.size[0] * res, self.map.size[1] * res))
         self.editor = Editor(self.map, self.camera)
-        self.input = Input(settings, "LEVEL", {pygame.K_e: "editor"})
+        self.input = Input(settings, "LEVEL", {K_e: "editor", K_LEFT: "left", K_RIGHT: "right", K_UP: "up", K_DOWN: "down"})
         self.input.setShortcut("keydown", "editor", self.showEditor)
+        self.input.setShortcut("keydown", "left", self.moveRect)
+        self.input.setShortcut("keydown", "right", self.moveRect)
+        self.input.setShortcut("keydown", "up", self.moveRect)
+        self.input.setShortcut("keydown", "down", self.moveRect)
+
+    def moveRect(self, dir):
+        if "left" == dir:
+            self.position.x -= 4
+        if "right" == dir:
+            self.position.x -= 4
+        if "up" == dir:
+            self.position.x -= 4
+        if "down" == dir:
+            self.position.x -= 4
 
     def addEntity(self, id=False, entity=None):
         if entity:

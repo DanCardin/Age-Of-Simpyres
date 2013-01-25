@@ -3,10 +3,9 @@ try:
     import cpickle as pickle
 except:
     import pickle
-from world import *
 from menu import *
-from server import *
-from client import *
+#from server import *
+#from client import *
 
 
 class Game(object):
@@ -18,12 +17,12 @@ class Game(object):
         self.on = True
         self.size = (screenSize[0] * res, screenSize[1] * res)
         self.type = Type
-        if "server" in self.type:
-            #self.server = Server(self.world.level, "", 9999)
-            self.server = Server(self.world.level, "localhost", 9999)
-        if "client" in self.type:
-            self.client = Client(self.world.level, b"dan", "localhost", 9999)
-            self.client.connect()
+        # if "server" in self.type:
+        #     #self.server = Server(self.world.level, "", 9999)
+        #     self.server = Server(self.world.level, "localhost", 9999)
+        # if "client" in self.type:
+        #     self.client = Client(self.world.level, b"dan", "localhost", 9999)
+        #     self.client.connect()
 
         text = ['Resume', 'Start', 'Settings', 'Exit']
         self.menu = Menu((screenSize[0] * res / 2 - 50, screenSize[1] * res / 2 - 50 * len(text) / 2), True)
@@ -96,31 +95,31 @@ class Game(object):
         inputs = []
         name = ""
 
-        if "client" in self.type:
-            getInput = self.getEvents()
-            for i in getInput:
-                self.client.send(i)
+        #if "client" in self.type:
+        getInput = self.getEvents()
+        # for i in getInput:
+        #     self.client.send(i)
 
-        if "server" in self.type:
-            for name, inp in self.server.receive():
-                inputs.append(inp)
+        # if "server" in self.type:
+        #     for name, inp in self.server.receive():
+        #         inputs.append(inp)
+        input = getInput
 
-        if "server" in self.type:
-            self.input.checkInput(inputs)
-            self.handleMenu(self.menu.tick(inputs, pygame.mouse.get_pos()))
-            if self.enabled:
-                if not self.world.won:
-                    self.world.tick(name, inputs)
-                else:
-                    self.win()
-            tmp = {}
-            for key, value in self.world.level.entities.items():
-                tmp[key] = value.rect
-            self.server.send(tmp)
+        #if "server" in self.type:
+        self.input.checkInput(inputs)
+        self.handleMenu(self.menu.tick(inputs, pygame.mouse.get_pos()))
+        if self.enabled:
+            if not self.world.won:
+                self.world.tick(name, inputs)
+            else:
+                self.win()
+        tmp = {}
+        for key, value in self.world.level.entities.items():
+            tmp[key] = value.rect
+        #    self.server.send(tmp)
 
-        if "client" in self.type:
-            for key, value in self.client.receive().items():
-                self.world.level.entities[key].rect = value
-            self.world.render(self.surface)
-            self.menu.draw(self.surface)
-
+        #if "client" in self.type:
+        #    for key, value in self.client.receive().items():
+        #        self.world.level.entities[key].rect = value
+        self.world.render(self.surface)
+        self.menu.draw(self.surface)

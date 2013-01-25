@@ -1,4 +1,3 @@
-from object import *
 from display import *
 from gconstants import *
 import main
@@ -47,7 +46,7 @@ class Menu(object):
                 item.display.draw(surface, Object((self.pos[0] * -1, self.pos[1] * -1, screenSize[0] * res, screenSize[1] * res)), "menu")
 
 
-class MenuItem(Object):
+class MenuItem(pygame.Rect):
     def __init__(self, Action, Rect, RColor, OColor, Text, TColor, Image, Toggle, TGroup):
         Object.__init__(self, Rect)
         self.action = Action
