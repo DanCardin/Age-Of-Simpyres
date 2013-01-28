@@ -15,14 +15,14 @@ class ModifyFiles(object):
             s = fObj.read()
             fObj.close()
             return s
-        except pygame.error(message):
+        except pygame.error as message:
             print("Cannot load file:", file)
             raise sys.exit()(message)
 
     def loadImage(self, file, colorkey=None):
         try:
             image = pygame.image.load(os.path.join("assets", file))
-        except pygame.error(message):
+        except pygame.error as message:
             print("Cannot load image:", file)
             raise sys.exit()(message)
         image = image.convert()

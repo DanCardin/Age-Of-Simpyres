@@ -5,26 +5,20 @@ class Move(object):
         self.parent = Parent
         self.pRect = self.parent.rect
 
-    def moveSingleAxis(self, dx, dy):
-        self.pRect.x += dx
-        self.pRect.y += dy
-        if hasattr(self.parent, "collision"):
-            return self.parent.collision.collideWalls(dx, dy)
-
-    def moveSingleAxissss(self, dx, dy):
-        if hasattr(self.parent, "collision"):
-            return self.parent.collision.collideEntities(dx, dy)
+    def moveSpeed(self, dir):
+        if not dir[0] == None:
+            self.speed[0] = dir[0] * self.topSpeed[0]
+        if not dir[1] == None:
+            self.speed[1] = dir[1] * self.topSpeed[1]
 
     def move(self):
         result = []
-        if self.speed[0] != 0:
-            r = [self.moveSingleAxis(self.speed[0], 0), self.moveSingleAxissss(self.speed[0], 0)]
-            for i in r:
-                if i != (None, None):
-                    result.append(i)
-        if self.speed[1] != 0:
-            r = [self.moveSingleAxis(0, self.speed[1]), self.moveSingleAxissss(0, self.speed[1])]
-            for i in r:
-                if i != (None, None):
-                    result.append(i)
-        return result
+        self.pRect.x += self.speed[0]
+        self.pRect.y += self.speed[1]
+        if hasattr(self.parent, "collision"):
+            collide = self.parent.collision
+            result.append(collide.Walls(self.speed[0], 0))
+            result.append(collide.Walls(0, self.speed[1]))
+            result.append(collide.Objects(0, self.speed[1]))
+            result.append(collide.Objects(0, self.speed[1]))
+        return [x for x in result if x != None]

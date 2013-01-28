@@ -34,24 +34,21 @@ class Collision(object):
                     result = (retype, "top")
         return result
 
-    def collideWalls(self, dx, dy):
+    def Walls(self, dx, dy):
         tx, ty = int(self.pRect.x / res), int(self.pRect.y / res)
         rects = [[tx, ty], [tx + 1, ty], [tx, ty + 1], [tx + 1, ty + 1]]
 
-        result = (None, None)
+        result = None
         for h in rects:
             ww = self.level.map.wallDim(int(h[0]), int(h[1]))
             temp = self.collDir(dx, dy, ww, self.level.map.getType(int(h[0]), int(h[1])))
-            if temp != None:
-                result = temp
         return result
 
-    def collideEntities(self, dx, dy):
+    def Objects(self, dx, dy):
         for i in range(self.level.entityId):
             obj = self.level.get(i)
             if self.parent != obj:
                 #if self.parent.inertia < obj.inertia:
                 temp = self.collDir(dx, dy, obj.rect, 1, self.colType)
-                if temp != None:
-                    return temp
-        return (None, None)
+                return temp
+        return None

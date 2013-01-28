@@ -1,2 +1,2 @@
--LEVEL-editor:101,-/LEVEL--KEYS-down:274,fire:120,jump:122,left:276,right:275,up:273,upleft:303,upright:257,-/KEYS--GAME-menu:109,resize:101,restart:114,-/GAME--EDIT-emenu:108,end:304,save:13,start:306,-/EDIT-
+-LEVEL-down:274,editor:101,left:276,right:275,up:273,-/LEVEL--KEYS-down:274,fire:120,jump:122,left:276,right:275,up:273,upleft:303,upright:257,-/KEYS--GAME-menu:109,resize:101,restart:114,-/GAME--EDIT-emenu:108,end:304,save:13,start:306,-/EDIT-
 -KEYS-

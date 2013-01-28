@@ -2,6 +2,7 @@
 
 import pygame
 from game import *
+from gconstants import *
 
 try:
     import android

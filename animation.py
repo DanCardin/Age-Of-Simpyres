@@ -3,49 +3,44 @@ from math import floor
 
 
 class Animation(object):
-    def __init__(self, Image, TLength, classs):
-        self.Class = classs
+    def __init__(self, Image, TLength, Parent):
+        self.parent = Parent
         self.tLength = TLength
-        self.anim = (([], []), ([], []))  # 0: rest animation, 1: horiz animation,
-        self.currAnim = [0, 0, 0]
-        self.preAnim = [0, 0]
-        tan = Image
-        tx, ty = tan.get_width() / self.tLength, tan.get_height()
-
+        self.anim = {"up": [], "down": [], "left": [], "right": [], "stop": []}
+        tx, ty = Image.get_width() / self.tLength, Image.get_height()
+        self.currAnim = 0
+        self.dir = Parent.dir
+        self.prevDir = 0
         for i in range(self.tLength):
-            #ta = pygame.surface.Surface((tan.get_width(), tan.get_height()))
-            ta = pygame.surface.Surface((20, tan.get_height()))
-            ta.blit(tan, (-i * tx, 0, i * tx + tx, ty))
+            ta = pygame.surface.Surface((tx, ty))
+            ta.blit(Image, (-i * tx, 0, i * tx + tx, ty))
             if i == 0:
-                self.anim[0][0].append(ta)
-                self.anim[0][1].append(pygame.transform.flip(ta, 1, 0))
+                self.anim["right"].append(ta)
+                self.anim["down"].append(ta)
+                self.anim["left"].append(pygame.transform.flip(ta, 1, 0))
+                self.anim["up"].append(pygame.transform.flip(ta, 1, 0))
             else:
-                self.anim[1][0].append(ta)
-        for i in range(len(self.anim[1][0])):
-            self.anim[1][1].append(pygame.transform.flip(self.anim[1][0][i], 1, 0))
+                self.anim["stop"].append(ta)
+                self.anim["stop"].append(pygame.transform.flip(ta, 1, 0))
 
     def animate(self, direction):
+        img = self.parent.display.image
         dir = direction * .5
-        if hasattr(self.Class, "move"):
-            self.preAnim[0], self.preAnim[1] = self.currAnim[0], self.currAnim[1]
-            self.currAnim[0] = {True: 1, False: 0}[self.Class.move.speed[0] != 0]
-            if self.currAnim[0] != 0:
-                self.currAnim[1] = {True: 0, False: 1}[self.Class.move.speed[0] > 0]
-            else:
-                self.currAnim[1] = self.preAnim[1]
-            if [self.currAnim[0], self.currAnim[1]] != self.preAnim:
-                self.currAnim[2] = 0
-            if dir > 0:
-                if self.currAnim[2] == len(self.anim[self.currAnim[0]][int(floor(self.currAnim[1]))]) - dir:
-                    self.currAnim[2] = 0
-                else:
-                    self.currAnim[2] += dir
-            else:
-                if self.currAnim[2] <= 0:
-                    self.currAnim[2] = len(self.anim[self.currAnim[0]][int(floor(self.currAnim[1]))]) - dir
-                else:
-                    self.currAnim[2] += dir
-            ar = self.anim[self.currAnim[0]][self.currAnim[1]][int(floor(self.currAnim[2]))]
-        else:
-            ar = self.anim[0][0][int(floor(self.currAnim + dir))]
-        self.Class.display.image = ar
+        if self.parent:
+            if self.currAnim >= self.tLength:
+                self.currAnim = 0
+            if self.dir != self.dir:
+                self.currAnim = 0
+            if self.dir == (0, 0):
+                img = self.anim["stop"][self.currAnim]
+            if self.dir == (-1, 0):
+                img = self.anim["left"][self.currAnim]
+            if self.dir == (1, 0):
+                img = self.anim["right"][self.currAnim]
+            if self.dir == (0, -1):
+                img = self.anim["up"][self.currAnim]
+            if self.dir == (0, 1):
+                img = self.anim["down"][self.currAnim]
+            self.currAnim += 1
+        img = self.anim["right"][0]
+        self.prevDir = self.dir

@@ -1,61 +1,61 @@
+import main
 from display import *
 from gconstants import *
-import main
-import pygame
+from pygame import Rect, Surface, MOUSEBUTTONDOWN
 
 
 class Menu(object):
     def __init__(self, Pos, Showing):
-        self.pos = Pos
+        self.rect = Rect(Pos[0], Pos[1], screenSize[0] * res, screenSize[1] * res)
         self.items = {}
         self.enabled = Showing
 
-    def append(self, Rect, Text, key, RColor=(255, 0, 0), OColor=(0, 0, 255), TColor=(0, 255, 0), Image=False, Toggle=False, TGroup=None):
-        self.items[key] = MenuItem(key, Rect, RColor, OColor, Text, TColor, Image, Toggle, TGroup)
+    def append(self, Rect, Text, Actions, Colors=((255, 0, 0), (0, 0, 255), (0, 255, 0)), Image=False, Toggle=None):
+        rect = (Rect[0] + self.rect.x, Rect[1] + self.rect.y, Rect[2], Rect[3])
+        if len(Text) == 1:
+            newItem = Text[0].lower()
+        else:
+            newItem = Text[1].lower()
+        self.items[newItem] = MenuItem(Actions, rect, Colors[0], Colors[1], Text[0], Colors[2], Image, Toggle != None, Toggle)
 
     def animate(self, animation):
         """"""
 
     def select(self, key):
-        return self.items.get(key)
+        return self.items[key.lower()]
 
-    def tick(self, input, mpos):
-        t = []
-        if self.enabled:
-            for key, item in self.items.items():
-                tmp = len(t)
-                if len(input) > 0:
-                    for event, key in input:
-                        eTick = item.tick(event, self.pos, mpos)
-                        if eTick != None:
-                            t.append(eTick)
-                if len(t) > tmp:
-                    if len(self.items) == 1:
-                        self.items[0].togState = not self.items[0].togState
-                    else:
-                        for key2, e in self.items.items():
-                            if e.toggle:
-                                if e.tGroup == item.tGroup:
-                                    e.togState = {True: 1, False: 0}[e.togState == 2]
-                item.tick(0, self.pos, mpos)
-        return t
+    def tick(self, input):
+        if self.enabled and len(input) > 0:
+            for item in self.items.values():
+                for event, key in input:
+                    item.tick(event, self.rect, key)
+            for item in self.items.values():
+                if item.changed:
+                    for key2, item2 in self.items.items():
+                        if item != item2 and item.tGroup == item2.tGroup and item.changed == False:
+                            item2.togState = False
+                #item.tick(0, self.rect, mpos)
 
     def draw(self, surface):
         if self.enabled:
-            for key, item in self.items.items():
-                item.display.draw(surface, Object((self.pos[0] * -1, self.pos[1] * -1, screenSize[0] * res, screenSize[1] * res)), "menu")
+            for item in self.items.values():
+                item.display.draw(surface, item, "menu")
 
 
 class MenuItem(pygame.Rect):
-    def __init__(self, Action, Rect, RColor, OColor, Text, TColor, Image, Toggle, TGroup):
-        Object.__init__(self, Rect)
-        self.action = Action
+    def __init__(self, Action, Rec, RColor, OColor, Text, TColor, Image, Toggle, TGroup):
+        self.rect = Rect(Rec)
+        if isinstance(Action, list):
+            self.action = Action
+        else:
+            self.action = [Action]
         self.images = [pygame.surface.Surface((self.rect.w, self.rect.h)), pygame.surface.Surface((self.rect.w, self.rect.h))]
         self.tGroup = TGroup
         self.toggle = Toggle
         if self.toggle:
-            self.togState = 0
-        self.display = Display(self.images[0], self, self.images[0].get_rect, False)
+            self.togState = False
+            self.changed = False
+        self.display = Display(self, self.images[0], self.images[0], False)
 
         self.rcolor = RColor
         self.ocolor = OColor
@@ -99,13 +99,22 @@ class MenuItem(pygame.Rect):
         self.rect.h += dy
 
     def tick(self, input, menu, mPos):
-        collide = pygame.Rect(menu[0] + self.rect.x, menu[1] + self.rect.y, self.rect.w, self.rect.h).collidepoint(mPos[0], mPos[1])
-        self.display.image = self.images[collide]
-        if self.toggle:
-            if self.togState:
-                self.display.image = self.images[1]
-        if input == pygame.MOUSEBUTTONDOWN:
+        self.changed = False
+        collide = self.rect.collidepoint(mPos[0], mPos[1])
+        if self.toggle and self.togState:
+            self.display.image = self.images[1]
+        else:
+            self.display.image = self.images[collide]
+        if input == MOUSEBUTTONDOWN:
             if collide:
                 if self.toggle:
-                    self.togState = 2
-                return self.action
+                    self.togState = True
+                    self.changed = True
+                for i in self.action:
+                    if hasattr(self.action[0], "__call__"):
+                        if len(self.action) == 1:
+                            self.action[0]()
+                        else:
+                            self.action[0](self.action[1])
+                    else:
+                        self.action[0] = self.action[1]

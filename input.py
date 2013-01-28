@@ -3,30 +3,32 @@ import pygame
 
 
 class Input(object):
-    def __init__(self, Settings, Keyword, Actions):
-        self.fileMod = ModifyFiles()
+    def __init__(self, Settings, Keyword):
         self.inputt = {}
         self.keyword = ("-" + Keyword + "-", "-/" + Keyword + "-")
         self.settings = Settings
         self.shortcuts = ({}, {})
 
-        k = False#self.getKeys(",")
-        if k == False:
-            self.inputt = Actions
-            self.setKeys()
-        else:
-            self.inputt = k
+        self.k = False#self.getKeys(",")
+        if self.k:
+            self.inputt = self.k
 
-    def setShortcut(self, updown, key, action, arg=False):
-        self.shortcuts[updown == "keydown"][key] = (action, arg)
+    def setShortcut(self, event, updown, key, action, arg=False):
+        if not self.k:
+            if not self.inputt.get(event):
+                self.inputt[event] = key
+        self.shortcuts[updown == "down"][key] = (action, arg)
 
     def useShortcut(self, updown, key):
         get = self.shortcuts[updown].get(key)
         if get:
-            if get[1]:
-                get[0](get[1])
+            if hasattr(get[0], "__call__"):
+                if get[1]:
+                    get[0](get[1])
+                else:
+                    get[0]()
             else:
-                get[0]()
+                get[0] = get[1]
 
     def checkInput(self, inputs):
         if len(inputs) != 0:
@@ -37,7 +39,7 @@ class Input(object):
 
     def getKeys(self, delim):
         keys = {}
-        s = self.fileMod.openFile(self.settings)
+        s = ModifyFiles().openFile(self.settings)
         p = s.find(self.keyword[0], 0)
         c = s.find(self.keyword[1], 0)
         if p == -1 or c == -1:
@@ -59,14 +61,14 @@ class Input(object):
     def setKeys(self):
         k = sorted(self.inputt.items(), key=lambda v: (v[1], v[0]))
         s = self.keyword[0] + "".join([x[1] + ":" + str(x[0]) + "," for x in k]) + self.keyword[1]
-        f = self.fileMod.openFile(self.settings)
+        f = ModifyFiles().openFile(self.settings)
         p = f.find(self.keyword[0], 0)
         ep = f.find(self.keyword[1], 0)
         if p != -1 and ep != -1:
             f = f[:p] + s + f[ep + len(self.keyword[1]):]
         else:
             f = s + f
-        self.fileMod.saveFile(f, self.settings)
+        ModifyFiles().saveFile(f, self.settings)
 
     def get(self, inputy):
         t = self.inputt.get(inputy[1])
