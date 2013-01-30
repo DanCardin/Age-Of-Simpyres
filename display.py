@@ -25,11 +25,12 @@ class Display(object):
             else:
                 self.animation = Animation(image, Anim[1], None)
 
-    def draw(self, surface, camera, arm=False):
+    def __call__(self, surface, camera, arm=False):
         if hasattr(self, "animation"):
             self.animation.animate(1)
             if self.trans:
                 self.image.set_colorkey(self.transColor)
+
         if arm == "menu":
             surface.blit(self.image, camera.rect)
         elif self.parent.colliderect(camera.rect):

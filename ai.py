@@ -10,7 +10,6 @@ class AI(object):
     def tick(self, mRes):
         if self.type == "goomba":
             self = self.parent.move
-            print(mRes)
             conditions = list(itertools.product(*[[1, "enemy"], ["left", "right"]]))
             if [i for i in conditions if i in mRes]:
                 self.speed[0] *= -1

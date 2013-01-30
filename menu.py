@@ -39,7 +39,7 @@ class Menu(object):
     def draw(self, surface):
         if self.enabled:
             for item in self.items.values():
-                item.display.draw(surface, item, "menu")
+                item.display(surface, item, "menu")
 
 
 class MenuItem(pygame.Rect):

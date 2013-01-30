@@ -47,12 +47,15 @@ class Level(object):
     def process(self, controller, input):
         for entity in self.entities.values():
             if not entity.dead:
-                entity.tick()
+                if hasattr(entity, "move"):
+                    entity.tick(entity.move(self.map, self.entities.values()))
+                else:
+                    entity.tick()
 
     def render(self, surface):
         self.map.draw(surface, self.camera)
         for entity in self.entities.values():
-            entity.display.draw(surface, self.camera)
+            entity.display(surface, self.camera)
         if self.editor.enabled:
             self.editor.draw(surface, self.camera)
 

@@ -2,53 +2,45 @@ from gconstants import *
 
 
 class Collision(object):
-    def __init__(self, Parent, Level, ColType):
-        self.parent = Parent
-        self.pRect = self.parent.rect
-        self.level = Level
+    def __init__(self, Parent, ColType):
+        self.parent = Parent.rect
         self.colType = ColType
 
-    def collDir(self, dx, dy, collideBox, t, inst=0):
-        result = None
-        if collideBox != None and t != 0:
-            if self.pRect.colliderect(collideBox):
-                if inst != 0:
-                    retype = inst
-                else:
+    def collDir(self, dx, dy, collideBox, t, inst):
+        if collideBox is not None and t != 0:
+            if self.parent.colliderect(collideBox):
+                if inst == "wall":
                     retype = t
+
                 if dx > 0:
                     if t == 1:
-                        self.pRect.right = collideBox.left
-                    result = (retype, "right")
-                if dx < 0:
+                        self.parent.right = collideBox.left
+                    return (retype, "right")
+                elif dx < 0:
                     if t == 1:
-                        self.pRect.left = collideBox.right
-                    result = (retype, "left")
-                if dy > 0:
+                        self.parent.left = collideBox.right
+                    return (retype, "left")
+                elif dy > 0:
                     if t == 1:
-                        self.pRect.bottom = collideBox.top
-                    result = (retype, "bottom")
-                if dy < 0:
+                        self.parent.bottom = collideBox.top
+                    return (retype, "bottom")
+                elif dy < 0:
                     if t == 1:
-                        self.pRect.top = collideBox.bottom
-                    result = (retype, "top")
-        return result
+                        self.parent.top = collideBox.bottom
+                    return (retype, "top")
+        return None
 
-    def Walls(self, dx, dy):
-        tx, ty = int(self.pRect.x / res), int(self.pRect.y / res)
-        rects = [[tx, ty], [tx + 1, ty], [tx, ty + 1], [tx + 1, ty + 1]]
+    def Walls(self, map, dx, dy):
+        tx, ty = int(self.parent.x / res), int(self.parent.y / res)
+        for h in [[tx, ty], [tx + 1, ty], [tx, ty + 1], [tx + 1, ty + 1]]:
+            wallRect = map.wallDim(int(h[0]), int(h[1]))
+            result = self.collDir(dx, dy, wallRect, map.getType(int(h[0]), int(h[1])), "wall")
+            if result is not None:
+                return result
+        return None
 
-        result = None
-        for h in rects:
-            ww = self.level.map.wallDim(int(h[0]), int(h[1]))
-            temp = self.collDir(dx, dy, ww, self.level.map.getType(int(h[0]), int(h[1])))
-        return result
-
-    def Objects(self, dx, dy):
-        for i in range(self.level.entityId):
-            obj = self.level.get(i)
-            if self.parent != obj:
-                #if self.parent.inertia < obj.inertia:
-                temp = self.collDir(dx, dy, obj.rect, 1, self.colType)
-                return temp
+    def Objects(self, objects, dx, dy):
+        for i in objects:
+            if self.parent != i.rect:
+                return self.collDir(dx, dy, i.rect, 1, self.colType)
         return None

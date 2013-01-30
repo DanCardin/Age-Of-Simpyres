@@ -11,7 +11,7 @@ class Camera(Rect):
             self.target = None
         self.bounds = Rect(Bounds)
         self.res = Res.rect
-        self.move = Move((8, 8), self)
+        self.move = Move(self, (8, 8))
 
     def reTarget(self, Target):
         self.target = Target.rect
@@ -21,7 +21,7 @@ class Camera(Rect):
         self.rect.h = size[1]
 
     def tick(self):
-        self.move.move()
+        self.move()
         if not self.target == None:
             if self.rect.x > self.target.x - self.bounds.x:
                 self.rect.x = self.target.x - self.bounds.x

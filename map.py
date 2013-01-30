@@ -16,9 +16,11 @@ class Map(object):
         self.transColor = self.tileset.get_at((0, 0))
         self.acmap = pygame.surface.Surface((self.size[0] * res, self.size[1] * res))
         self.acmap.set_colorkey(self.transColor)
-        self.mChange = True
         self.rect = pygame.Rect(0, 0, self.size[0] * res, self.size[1] * res)
         self.display = Display(self, self.acmap, self.acmap.get_rect(), False)
+        self.mChange = []
+        for i in self._map.keys():
+            self.mChange.append(i)
         self.initDrawMap()
 
     def load(self, filename):
@@ -62,12 +64,11 @@ class Map(object):
         return pygame.Rect(x * res, y * res, 32, 32)#pygame.Rect(x * res + self._map[x][y].rect.x, y * res + self._map[x][y].rect.y, self._map[x][y].rect.w, self._map[x][y].rect.h)
 
     def initDrawMap(self):
-        for pos, tile in self._map.items():
-            til = pygame.surface.Surface((res, res))
-            til.blit(self.tileset, (0, -1 * tile.tile * res, res, res))
-            self.acmap.blit(til, (pos[0] * res, pos[1] * res))
+        for i, e in self.mChange:
+            self.acmap.blit(self.tileset, (i * res, e * res), (0, self._map[(i, e)].tile * res, res, res))
 
     def draw(self, surface, camera):
         if self.mChange:
             self.initDrawMap()
-        self.display.draw(surface, camera, camera)
+            self.mChange = []
+        self.display(surface, camera, camera)

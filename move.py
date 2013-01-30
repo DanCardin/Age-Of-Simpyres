@@ -1,9 +1,12 @@
 class Move(object):
-    def __init__(self, Speed, Parent):
+    def __init__(self, Parent, Speed):
         self.topSpeed = Speed
         self.speed = [0, 0]
         self.parent = Parent
-        self.pRect = self.parent.rect
+        if hasattr(Parent, "collision"):
+            self._func = self.hasCollision
+        else:
+            self._func = self.noCollision
 
     def moveSpeed(self, dir):
         if not dir[0] == None:
@@ -11,14 +14,22 @@ class Move(object):
         if not dir[1] == None:
             self.speed[1] = dir[1] * self.topSpeed[1]
 
-    def move(self):
+    def noCollision(self):
+        self.parent.rect.x += self.speed[0]
+        self.parent.rect.y += self.speed[1]
+
+    def hasCollision(self, Map, Objects):
         result = []
-        self.pRect.x += self.speed[0]
-        self.pRect.y += self.speed[1]
-        if hasattr(self.parent, "collision"):
-            collide = self.parent.collision
-            result.append(collide.Walls(self.speed[0], 0))
-            result.append(collide.Walls(0, self.speed[1]))
-            result.append(collide.Objects(0, self.speed[1]))
-            result.append(collide.Objects(0, self.speed[1]))
+        collide = self.parent.collision
+        
+        self.parent.rect.x += self.speed[0]
+        result.append(collide.Walls(Map, self.speed[0], 0))
+        self.parent.rect.y += self.speed[1]
+        result.append(collide.Walls(Map, 0, self.speed[1]))
+
+        result.append(collide.Objects(Objects, 0, self.speed[1]))
+        result.append(collide.Objects(Objects, self.speed[1], 0))
         return [x for x in result if x != None]
+
+    def __call__(self, *args):
+        return self._func(*args)

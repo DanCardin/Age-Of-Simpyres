@@ -9,17 +9,16 @@ class Enemy(object):
     def __init__(self, Size, Speed, Tileset, Level):
         self.rect = Rect(Size)
         self.level = Level
-        self.move = Move(Speed, self)
+        self.collision = Collision(self, "enemy")
+        self.move = Move(self, Speed)
         self.move.moveSpeed((1, 1))
-        self.collision = Collision(self, Level, "enemy")
         self.dir = (0, 0)
         self.display = Display(self, Tileset, Size, True, (True, 11))
         self.ai = AI("goomba", self, Level)
         self.dead = False
 
-    def tick(self):
+    def tick(self, mRes):
         if not self.dead:
-            mRes = self.move.move()
             self.ai.tick(mRes)
 
             if self.move.speed[0] > 0:
