@@ -18,22 +18,23 @@ class Game(object):
         self.size = (screenSize[0] * res, screenSize[1] * res)
 
         self.menu = Menu((screenSize[0] * res / 2 - 50, screenSize[1] * res / 2 - 100), True)
-        self.menu.append((-25, -100, 150, 100), ("Pygame Game!","gamename"), (None, ""), ((0, 0, 0), (0, 0, 0), (155, 150, 0)))
+        self.menu.append((-25, -100, 150, 100), ("Pygame Game!", "gamename"), (None, ""), ((0, 0, 0), (0, 0, 0), (155, 150, 0)))
         self.menu.append((0, 0, 100, 48), ("Resume",), (self.resume))
         self.menu.append((0, 50, 100, 48), ("Start",), (self.restart))
         self.menu.append((0, 100, 100, 48), ("Settings",), (self.settings))
         self.menu.append((0, 150, 100, 48), ("Exit",), (self.exit))
 
         self.input = Input(settings, "GAME")
-        self.input.setShortcut(pygame.K_m, "down", "menu", self.showMenu)
-        self.input.setShortcut(pygame.K_r, "down", "restart", self.restart)
-        self.input.setShortcut(pygame.K_e, "down", "resize", self.togEditor)
+        self.input.setShortcut(pygame.KEYDOWN, pygame.K_m, "menu", self.showMenu)
+        self.input.setShortcut(pygame.KEYDOWN, pygame.K_r, "restart", self.restart)
+        self.input.setShortcut(pygame.KEYDOWN, pygame.K_e, "resize", self.togEditor)
         if not self.input.k:
             self.input.setKeys()
-        #self.restart()      
+        #self.restart()
 
     def togEditor(self):
-        self.resize((self.size[0], self.size[1] + 2 * res * (not self.level.editor.enabled)))
+        if self.enabled:
+            self.resize((self.size[0], self.size[1] + 2 * res * (not self.level.editorEnabled)))
 
     def resize(self, size):
         self.surface = pygame.display.set_mode(size)
@@ -88,6 +89,6 @@ class Game(object):
                 self.level.tick("name", inputs)
             else:
                 self.win()
-
-        self.level.render(self.surface)
+        if self.enabled:
+            self.level.render(self.surface)
         self.menu.draw(self.surface)

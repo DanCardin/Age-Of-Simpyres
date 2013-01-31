@@ -16,16 +16,17 @@ class Level(object):
         self.position = Rect(100, 100, 1, 1)
         self.camera = Camera((0, 0, screenSize[0] * res, screenSize[1] * res), (screenSize[0] * res / 2, screenSize[1] * res / 2, 1, 1), self.map)
         self.editor = Editor(self.map, self.camera)
+        self.editorEnabled = False
         self.input = Input(settings, "LEVEL")
-        self.input.setShortcut(K_e, "down", "editor", self.showEditor)
-        self.input.setShortcut(K_LEFT, "down", "left", self.camera.move.moveSpeed, (-1, None))
-        self.input.setShortcut(K_RIGHT, "down", "right", self.camera.move.moveSpeed, (1, None))
-        self.input.setShortcut(K_UP, "down", "up", self.camera.move.moveSpeed, (None, -1))
-        self.input.setShortcut(K_DOWN, "down", "down", self.camera.move.moveSpeed, (None, 1))
-        self.input.setShortcut(K_LEFT, "up", "left", self.camera.move.moveSpeed, (0, None))
-        self.input.setShortcut(K_RIGHT, "up", "right", self.camera.move.moveSpeed, (0, None))
-        self.input.setShortcut(K_UP, "up", "up", self.camera.move.moveSpeed, (None, 0))
-        self.input.setShortcut(K_DOWN, "up", "down", self.camera.move.moveSpeed, (None, 0))
+        self.input.setShortcut(KEYDOWN, K_e, "editor", self.toggleEditor)
+        self.input.setShortcut(KEYDOWN, K_LEFT, "left", self.camera.move.moveSpeed, (-1, None))
+        self.input.setShortcut(KEYDOWN, K_RIGHT, "right", self.camera.move.moveSpeed, (1, None))
+        self.input.setShortcut(KEYDOWN, K_UP, "up", self.camera.move.moveSpeed, (None, -1))
+        self.input.setShortcut(KEYDOWN, K_DOWN, "down", self.camera.move.moveSpeed, (None, 1))
+        self.input.setShortcut(KEYUP, K_LEFT, "left", self.camera.move.moveSpeed, (0, None))
+        self.input.setShortcut(KEYUP, K_RIGHT, "right", self.camera.move.moveSpeed, (0, None))
+        self.input.setShortcut(KEYUP, K_UP, "up", self.camera.move.moveSpeed, (None, 0))
+        self.input.setShortcut(KEYUP, K_DOWN, "down", self.camera.move.moveSpeed, (None, 0))
         if not self.input.k:
             self.input.setKeys()
 
@@ -37,12 +38,16 @@ class Level(object):
                 self.entityId += 1
             else:
                 self.entities[id] = entity
+        #self.map.save()
 
     def removeEntity(self, entity):
         del self.entities[entity.id]
 
     def get(self, entityId):
         return self.entities.get(entityId)
+
+    def toggleEditor(self):
+        self.editorEnabled = not self.editorEnabled
 
     def process(self, controller, input):
         for entity in self.entities.values():
@@ -56,15 +61,12 @@ class Level(object):
         self.map.draw(surface, self.camera)
         for entity in self.entities.values():
             entity.display(surface, self.camera)
-        if self.editor.enabled:
+        if self.editorEnabled:
             self.editor.draw(surface, self.camera)
-
-    def showEditor(self):
-        self.editor.enabled = not self.editor.enabled
 
     def tick(self, control, input):
         self.input.checkInput(input)
         self.camera.tick()
-        if self.editor.enabled:
-            self.editor.edit(input)
+        if self.editorEnabled:
+            self.editor(input)
         self.process(control, input)

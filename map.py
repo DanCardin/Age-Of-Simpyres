@@ -23,6 +23,11 @@ class Map(object):
             self.mChange.append(i)
         self.initDrawMap()
 
+    def __call__(self, x=None, y=None):  # in the future, you could use this to get rows and columns
+        if x is not None and y is not None:
+            return self._map[(x, y)]
+        return self._map
+
     def load(self, filename):
         fStr = ModifyFiles().openFile(filename)
         pos, bg = [], []
@@ -40,28 +45,13 @@ class Map(object):
                     com = ns.find(",")
                     pos.append(int(ns[:com]))
                     ns = ns[com + 1:]
-                self._map[(i, e)] = Wall((pos[0] * self.res, pos[1] * self.res, pos[2] * self.res, pos[3] * self.res, pos[4], pos[5]))
+                #self._map[(i, e)] = Wall((pos[0] * self.res, pos[1] * self.res, pos[2] * self.res, pos[3] * self.res, pos[4], pos[5]))
+                self._map[(i, e)] = Wall((i * 32, e * 32, pos[2] * self.res, pos[3] * self.res, pos[4], pos[5]))
 
     def save(self):
         s = ["%s.%s.%s." % (int(res / self.res), self.size[0], self.size[1])]
-        [[s.append("(%s,%s,%s,%s,%s,%s,)" % (e.rect.x, e.rect.y, int(e.rect.w / self.res), int(e.rect.h / self.res), e.type, e.tile)) for e in i] for i in self._map]
-        ns = ''.join(s)
-        ModifyFiles().saveFile(ns, self.file)
-
-    def getType(self, x, y):
-        return self._map.get((x, y)).type
-
-    def setType(self, x, y, Type):
-        self._map.get((x, y)).type = Type
-
-    def getTile(self, x, y):
-        return self._map.get((x, y)).Tile
-
-    def setTile(self, x, y, Tile):
-        self._map.get((x, y)).tile = tile
-
-    def wallDim(self, x, y):
-        return pygame.Rect(x * res, y * res, 32, 32)#pygame.Rect(x * res + self._map[x][y].rect.x, y * res + self._map[x][y].rect.y, self._map[x][y].rect.w, self._map[x][y].rect.h)
+        [s.append("(%s,%s,%s,%s,%s,%s,)" % (self._map[tile].rect.x, self._map[tile].rect.y, int(self._map[tile].rect.w / self.res), int(self._map[tile].rect.h / self.res), self._map[tile].type, self._map[tile].tile)) for tile in sorted(self._map.keys())]
+        ModifyFiles().saveFile(''.join(s), self.file)
 
     def initDrawMap(self):
         for i, e in self.mChange:

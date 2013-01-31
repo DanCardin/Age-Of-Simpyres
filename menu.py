@@ -33,7 +33,7 @@ class Menu(object):
                 if item.changed:
                     for key2, item2 in self.items.items():
                         if item != item2 and item.tGroup == item2.tGroup and item.changed == False:
-                            item2.togState = False
+                            item2.toggledOn = False
                 #item.tick(0, self.rect, mpos)
 
     def draw(self, surface):
@@ -53,7 +53,7 @@ class MenuItem(pygame.Rect):
         self.tGroup = TGroup
         self.toggle = Toggle
         if self.toggle:
-            self.togState = False
+            self.toggledOn = False
             self.changed = False
         self.display = Display(self, self.images[0], self.images[0], False)
 
@@ -100,15 +100,15 @@ class MenuItem(pygame.Rect):
 
     def tick(self, input, menu, mPos):
         self.changed = False
-        collide = self.rect.collidepoint(mPos[0], mPos[1])
-        if self.toggle and self.togState:
+        collide = self.rect.collidepoint(mPos)
+        if self.toggle and self.toggledOn:
             self.display.image = self.images[1]
         else:
             self.display.image = self.images[collide]
         if input == MOUSEBUTTONDOWN:
             if collide:
                 if self.toggle:
-                    self.togState = True
+                    self.toggledOn = True
                     self.changed = True
                 for i in self.action:
                     if hasattr(self.action[0], "__call__"):

@@ -4,38 +4,50 @@ import pygame
 
 class Input(object):
     def __init__(self, Settings, Keyword):
-        self.inputt = {}
+        self.keys = {}
         self.keyword = ("-" + Keyword + "-", "-/" + Keyword + "-")
         self.settings = Settings
-        self.shortcuts = ({}, {})
+        self.shortcuts = {}
 
-        self.k = False#self.getKeys(",")
+        self.k = False  # self.getKeys(",")
         if self.k:
-            self.inputt = self.k
+            self.keys = self.k
 
-    def setShortcut(self, event, updown, key, action, arg=False):
+    def setShortcut(self, event, key, label, action, arg=False):
         if not self.k:
-            if not self.inputt.get(event):
-                self.inputt[event] = key
-        self.shortcuts[updown == "down"][key] = (action, arg)
+            if not self.keys.get(key):
+                self.keys[key] = label
+        if not self.shortcuts.get(event):
+            self.shortcuts[event] = {}
+        self.shortcuts[event][label] = (action, arg)
 
-    def useShortcut(self, updown, key):
-        get = self.shortcuts[updown].get(key)
-        if get:
-            if hasattr(get[0], "__call__"):
-                if get[1]:
-                    get[0](get[1])
+    def useShortcut(self, validInput):
+        #print(self.shortcuts)
+        event, key = validInput
+        print (event, key)
+        action, argument = event[key]
+        if action:
+            if hasattr(action, "__call__"):
+                if argument:
+                    action(argument)
                 else:
-                    get[0]()
+                    action()
             else:
-                get[0] = get[1]
+                action = argument
+
+    def get(self, action, key):
+        print(action, key)
+        validShortcut = self.shortcuts.get(action)
+        validValue = self.keys.get(key)
+        if validShortcut and validValue:
+            return (validShortcut, validValue)
+        return None
 
     def checkInput(self, inputs):
-        if len(inputs) != 0:
-            for inputy in inputs:
-                cInput = self.get(inputy)
-                if cInput != - 1:
-                    self.useShortcut(cInput[0], cInput[1])
+        for action, key in inputs:
+            validInput = self.get(action, key)
+            if validInput:
+                self.useShortcut(validInput)
 
     def getKeys(self, delim):
         keys = {}
@@ -59,7 +71,7 @@ class Input(object):
             return keys
 
     def setKeys(self):
-        k = sorted(self.inputt.items(), key=lambda v: (v[1], v[0]))
+        k = sorted(self.keys.items(), key=lambda v: (v[1], v[0]))
         s = self.keyword[0] + "".join([x[1] + ":" + str(x[0]) + "," for x in k]) + self.keyword[1]
         f = ModifyFiles().openFile(self.settings)
         p = f.find(self.keyword[0], 0)
@@ -69,9 +81,3 @@ class Input(object):
         else:
             f = s + f
         ModifyFiles().saveFile(f, self.settings)
-
-    def get(self, inputy):
-        t = self.inputt.get(inputy[1])
-        if t:
-            return (inputy[0] == pygame.KEYDOWN, t)
-        return -1
