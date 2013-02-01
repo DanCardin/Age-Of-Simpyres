@@ -3,6 +3,7 @@ from gconstants import *
 from modifyfiles import *
 from wall import *
 from display import *
+import pickle
 
 
 class Map(object):
@@ -51,6 +52,7 @@ class Map(object):
     def save(self):
         s = ["%s.%s.%s." % (int(res / self.res), self.size[0], self.size[1])]
         [s.append("(%s,%s,%s,%s,%s,%s,)" % (self._map[tile].rect.x, self._map[tile].rect.y, int(self._map[tile].rect.w / self.res), int(self._map[tile].rect.h / self.res), self._map[tile].type, self._map[tile].tile)) for tile in sorted(self._map.keys())]
+        #s = pickle.dumps(self._map)
         ModifyFiles().saveFile(''.join(s), self.file)
 
     def initDrawMap(self):

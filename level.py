@@ -5,11 +5,12 @@ from editor import *
 from gconstants import *
 from enemy import *
 
+
 class Level(object):
     def __init__(self, File, Tileset):
         self.entities = {}
         self.map = Map(File, Tileset)
-        for i in []:#self.map.objects:
+        for i in []:  # self.map.objects:
             self.addEntity(i)
         self.entityId = 0
         self.addEntity(entity=Enemy((64, 96, 20, 26), (4, 4), playerTileset, self))
@@ -65,7 +66,7 @@ class Level(object):
             self.editor.draw(surface, self.camera)
 
     def tick(self, control, input):
-        self.input.checkInput(input)
+        self.input(input)
         self.camera.tick()
         if self.editorEnabled:
             self.editor(input)

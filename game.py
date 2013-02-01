@@ -81,14 +81,14 @@ class Game(object):
     def tick(self):
         self.surface.fill(0)
         inputs = self.getEvents()
-
-        self.input.checkInput(inputs)
+        self.input(inputs)
         self.menu.tick(inputs)
+
         if self.enabled:
             if self.on:
                 self.level.tick("name", inputs)
             else:
                 self.win()
-        if self.enabled:
             self.level.render(self.surface)
-        self.menu.draw(self.surface)
+        else:
+            self.menu.draw(self.surface)

@@ -1,14 +1,13 @@
 import main
 from display import *
 from gconstants import *
-from pygame import Rect, Surface, MOUSEBUTTONDOWN
+from pygame import Rect, Surface, MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
 
 
 class Menu(object):
     def __init__(self, Pos, Showing):
         self.rect = Rect(Pos[0], Pos[1], screenSize[0] * res, screenSize[1] * res)
         self.items = {}
-        self.enabled = Showing
 
     def append(self, Rect, Text, Actions, Colors=((255, 0, 0), (0, 0, 255), (0, 255, 0)), Image=False, Toggle=None):
         rect = (Rect[0] + self.rect.x, Rect[1] + self.rect.y, Rect[2], Rect[3])
@@ -25,21 +24,18 @@ class Menu(object):
         return self.items[key.lower()]
 
     def tick(self, input):
-        if self.enabled and len(input) > 0:
+        for event, key in input:
             for item in self.items.values():
-                for event, key in input:
-                    item.tick(event, self.rect, key)
-            for item in self.items.values():
-                if item.changed:
-                    for key2, item2 in self.items.items():
-                        if item != item2 and item.tGroup == item2.tGroup and item.changed == False:
-                            item2.toggledOn = False
-                #item.tick(0, self.rect, mpos)
+                item.tick(event, self.rect, key)
+        for item in self.items.values():
+            if item.changed:
+                for key2, item2 in self.items.items():
+                    if item != item2 and item.tGroup == item2.tGroup and item.changed == False:
+                        item2.toggledOn = False
 
     def draw(self, surface):
-        if self.enabled:
-            for item in self.items.values():
-                item.display(surface, item, "menu")
+        for item in self.items.values():
+            item.display(surface, item, "menu")
 
 
 class MenuItem(pygame.Rect):
@@ -100,7 +96,10 @@ class MenuItem(pygame.Rect):
 
     def tick(self, input, menu, mPos):
         self.changed = False
-        collide = self.rect.collidepoint(mPos)
+        try:
+            collide = self.rect.collidepoint(mPos)  # Fix this, stop the error rather than ignoring it
+        except:
+            return
         if self.toggle and self.toggledOn:
             self.display.image = self.images[1]
         else:

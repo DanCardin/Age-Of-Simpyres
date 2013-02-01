@@ -21,10 +21,8 @@ class Input(object):
             self.shortcuts[event] = {}
         self.shortcuts[event][label] = (action, arg)
 
-    def useShortcut(self, validInput):
-        #print(self.shortcuts)
-        event, key = validInput
-        print (event, key)
+    def useShortcut(self, event, key):
+        #print (key, event)
         action, argument = event[key]
         if action:
             if hasattr(action, "__call__"):
@@ -35,19 +33,14 @@ class Input(object):
             else:
                 action = argument
 
-    def get(self, action, key):
-        print(action, key)
-        validShortcut = self.shortcuts.get(action)
-        validValue = self.keys.get(key)
-        if validShortcut and validValue:
-            return (validShortcut, validValue)
-        return None
-
-    def checkInput(self, inputs):
-        for action, key in inputs:
-            validInput = self.get(action, key)
-            if validInput:
-                self.useShortcut(validInput)
+    def __call__(self, inputs):
+        for event, key in inputs:
+            validEvent = self.shortcuts.get(event)
+            validShortcut = self.keys.get(key)
+            validLabel = self.shortcuts[event].get(key)
+            if validEvent and validShortcut and validLabel:
+                print(event, validEvent)
+                self.useShortcut(validEvent, validShortcut)
 
     def getKeys(self, delim):
         keys = {}

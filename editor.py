@@ -67,13 +67,12 @@ class Editor(pygame.Rect):
         self.menu.draw(surface)
 
     def __call__(self, input):
-        if input:
-            for event in input:
-                if event[0] in [MOUSEBUTTONUP, MOUSEBUTTONDOWN]:
-                    self.painting = {pygame.MOUSEBUTTONDOWN: True, pygame.MOUSEBUTTONUP: False}.get(event[0])
-                    self.menu.tick(event)
-                if self.painting:
-                    if self.tool == 0:
-                        self.pen(event[1])
-                    elif self.tool == 1:
-                        self.box(event)
+        self.menu.tick(input)
+        for event in input:
+            if event[0] in [MOUSEBUTTONUP, MOUSEBUTTONDOWN]:
+                self.painting = {pygame.MOUSEBUTTONDOWN: True, pygame.MOUSEBUTTONUP: False}.get(event[0])
+            if self.painting:
+                if self.tool == 0:
+                    self.pen(event[1])
+                elif self.tool == 1:
+                    self.box(event)
