@@ -21,7 +21,7 @@ class Move(object):
     def hasCollision(self, Map, Objects):
         result = []
         collide = self.parent.collision
-        
+
         self.parent.rect.x += self.speed[0]
         result.append(collide.Walls(Map, self.speed[0], 0))
         self.parent.rect.y += self.speed[1]

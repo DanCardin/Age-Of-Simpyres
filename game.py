@@ -1,10 +1,7 @@
 import pygame
-try:
-    import cpickle as pickle
-except:
-    import pickle
 from menu import *
 from level import *
+
 
 class Game(object):
     def __init__(self, Type, LevelFile, LevelTileset):

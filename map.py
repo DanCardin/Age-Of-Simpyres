@@ -3,7 +3,6 @@ from gconstants import *
 from modifyfiles import *
 from wall import *
 from display import *
-import pickle
 
 
 class Map(object):

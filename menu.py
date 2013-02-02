@@ -1,7 +1,7 @@
 import main
 from display import *
 from gconstants import *
-from pygame import Rect, Surface, MOUSEBUTTONDOWN, MOUSEBUTTONUP, MOUSEMOTION
+from pygame import Rect, Surface, MOUSEBUTTONDOWN
 
 
 class Menu(object):
@@ -15,7 +15,7 @@ class Menu(object):
             newItem = Text[0].lower()
         else:
             newItem = Text[1].lower()
-        self.items[newItem] = MenuItem(Actions, rect, Colors[0], Colors[1], Text[0], Colors[2], Image, Toggle != None, Toggle)
+        self.items[newItem] = MenuItem(Actions, rect, Colors[0], Colors[1], Text[0], Colors[2], Image, Toggle)
 
     def animate(self, animation):
         """"""
@@ -30,7 +30,7 @@ class Menu(object):
         for item in self.items.values():
             if item.changed:
                 for key2, item2 in self.items.items():
-                    if item != item2 and item.tGroup == item2.tGroup and item.changed == False:
+                    if item != item2 and item.toggle == item2.toggle and item.changed == False:
                         item2.toggledOn = False
 
     def draw(self, surface):
@@ -39,14 +39,13 @@ class Menu(object):
 
 
 class MenuItem(pygame.Rect):
-    def __init__(self, Action, Rec, RColor, OColor, Text, TColor, Image, Toggle, TGroup):
+    def __init__(self, Action, Rec, RColor, OColor, Text, TColor, Image, Toggle):
         self.rect = Rect(Rec)
         if isinstance(Action, list):
             self.action = Action
         else:
             self.action = [Action]
         self.images = [pygame.surface.Surface((self.rect.w, self.rect.h)), pygame.surface.Surface((self.rect.w, self.rect.h))]
-        self.tGroup = TGroup
         self.toggle = Toggle
         if self.toggle:
             self.toggledOn = False

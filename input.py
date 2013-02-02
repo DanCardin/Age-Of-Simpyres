@@ -1,5 +1,4 @@
 from modifyfiles import *
-import pygame
 
 
 class Input(object):
@@ -22,7 +21,6 @@ class Input(object):
         self.shortcuts[event][label] = (action, arg)
 
     def useShortcut(self, event, key):
-        #print (key, event)
         action, argument = event[key]
         if action:
             if hasattr(action, "__call__"):
@@ -37,10 +35,9 @@ class Input(object):
         for event, key in inputs:
             validEvent = self.shortcuts.get(event)
             validShortcut = self.keys.get(key)
-            validLabel = self.shortcuts[event].get(key)
-            if validEvent and validShortcut and validLabel:
-                print(event, validEvent)
-                self.useShortcut(validEvent, validShortcut)
+            if validEvent and validShortcut:
+                if validEvent.get(validShortcut):
+                    self.useShortcut(validEvent, validShortcut)
 
     def getKeys(self, delim):
         keys = {}
