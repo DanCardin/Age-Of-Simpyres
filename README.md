@@ -10,4 +10,10 @@ Mixture of The Sims, and Age of Empires. The play style of age of Empires, with 
 
 
 ## Changelog
+ - 
+ - fixed problem with menu events
+ - updating the the map and editor only redraws what has changed
+ - simplified all file parsing to use the re module
+ - mass simplification of the map object
+ - mass simplification of menu, and input system
  - Initial compiling setup

@@ -1,3 +1,4 @@
+import re
 from modifyfiles import *
 
 
@@ -10,12 +11,10 @@ class Input(object):
 
         if self.settings:
             self.k = False  # self.getKeys(",")
-            if self.k:
-                self.keys = self.k
         else:
             self.k = False
 
-    def setShortcut(self, event, key, label, action, arg=False):
+    def setShortcut(self, event, key, label, action, arg=None):
         if not self.k:
             if not self.keys.get(key):
                 self.keys[key] = label
@@ -27,7 +26,7 @@ class Input(object):
         action, argument = event[key]
         if action:
             if hasattr(action, "__call__"):
-                if argument:
+                if argument is not None:
                     action(argument)
                 else:
                     action()
@@ -43,25 +42,13 @@ class Input(object):
                     self.useShortcut(validEvent, validShortcut)
 
     def getKeys(self, delim):
-        keys = {}
-        s = ModifyFiles().openFile(self.settings)
-        p = s.find(self.keyword[0], 0)
-        c = s.find(self.keyword[1], 0)
-        if p == -1 or c == -1:
-            return False
+        catagory = re.search(self.keyword[0] + "(.*?)" + self.keyword[1], ModifyFiles().openFile(self.settings))
+        if catagory:
+            for i in re.finditer("((?:[a-z][a-z]+)):(\d+),", catagory.group(1)):
+                self.keys[i.group(1)] = int(i.group(2))
+            return True
         else:
-            s = s[p + len(self.keyword[0]):c]
-            p = 0
-            c = 0
-            while True:
-                c = s.find(delim, p)
-                if c == -1:
-                    break
-                t = s[p:c]
-                r = t.find(":")
-                keys[int(t[r + 1:])] = t[:r]
-                p = c + 1
-            return keys
+            return False
 
     def setKeys(self):
         k = sorted(self.keys.items(), key=lambda v: (v[1], v[0]))

@@ -1,4 +1,4 @@
-from pygame import *
+from pygame import KEYDOWN, KEYUP, K_LEFT, K_RIGHT, K_UP, K_DOWN, K_e
 from map import *
 from camera import *
 from editor import *

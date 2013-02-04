@@ -1,4 +1,4 @@
-import pygame
+from pygame import display, event, KEYDOWN, KEYUP, MOUSEBUTTONDOWN, MOUSEMOTION, MOUSEBUTTONUP, K_m, K_r, K_e, QUIT
 from menu import *
 from level import *
 
@@ -22,9 +22,9 @@ class Game(object):
         self.menu.append((0, 150, 100, 48), ("Exit",), self.exit)
 
         self.input = Input(settings, "GAME")
-        self.input.setShortcut(pygame.KEYDOWN, pygame.K_m, "menu", self.showMenu)
-        self.input.setShortcut(pygame.KEYDOWN, pygame.K_r, "restart", self.restart)
-        self.input.setShortcut(pygame.KEYDOWN, pygame.K_e, "resize", self.togEditor)
+        self.input.setShortcut(KEYDOWN, K_m, "menu", self.showMenu)
+        self.input.setShortcut(KEYDOWN, K_r, "restart", self.restart)
+        self.input.setShortcut(KEYDOWN, K_e, "resize", self.togEditor)
         if not self.input.k:
             self.input.setKeys()
         #self.restart()
@@ -34,23 +34,17 @@ class Game(object):
             self.resize((self.size[0], self.size[1] + 2 * res * (not self.level.editorEnabled)))
 
     def resize(self, size):
-        self.surface = pygame.display.set_mode(size)
-        pygame.display.set_caption(gameName)
+        self.surface = display.set_mode(size)
+        display.set_caption(gameName)
 
     def resume(self):
-        if self.level != 0:
-            self.enabled = True
-        else:
-            self.start()
-        self.menu.enabled = False
+        self.enabled = True
 
     def restart(self):
-        self.menu.enabled = False
         self.enabled = True
         self.level = Level(self.levelFile, self.levelTileset)
 
     def showMenu(self):
-        self.menu.enabled = not self.menu.enabled
         self.enabled = not self.enabled
 
     def settings(self):
@@ -64,22 +58,21 @@ class Game(object):
 
     def getEvents(self):
         result = []
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-                result.append((event.type, event.key))
-            if event.type == pygame.QUIT:
+        for even in event.get():
+            if even.type is KEYDOWN or even.type is KEYUP:
+                result.append((even.type, even.key))
+            if even.type is QUIT:
                 self.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
-                result.append((event.type, event.pos))
-            if event.type == pygame.MOUSEMOTION:
-                result.append((event.type, event.pos))
+            if even.type is MOUSEBUTTONDOWN or even.type is MOUSEBUTTONUP:
+                result.append((even.type, even.pos))
+            if even.type is MOUSEMOTION:
+                result.append((even.type, even.pos))
         return result
 
     def tick(self):
         self.surface.fill(0)
         inputs = self.getEvents()
         self.input(inputs)
-        self.menu.tick(inputs)
 
         if self.enabled:
             if self.on:
@@ -88,4 +81,5 @@ class Game(object):
                 self.win()
             self.level.render(self.surface)
         else:
+            self.menu.tick(inputs)
             self.menu.draw(self.surface)

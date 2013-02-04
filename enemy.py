@@ -29,7 +29,7 @@ class Enemy(object):
                 self.dir = (0, 1)
             if self.move.speed[1] < 0:
                 self.dir = (0, -1)
-            if self.move.speed == (0,0):
+            if self.move.speed == (0, 0):
                 self.dir = (0, 0)
 
             for i in mRes:
