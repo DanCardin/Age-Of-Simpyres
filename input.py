@@ -8,9 +8,12 @@ class Input(object):
         self.settings = Settings
         self.shortcuts = {}
 
-        self.k = False  # self.getKeys(",")
-        if self.k:
-            self.keys = self.k
+        if self.settings:
+            self.k = False  # self.getKeys(",")
+            if self.k:
+                self.keys = self.k
+        else:
+            self.k = False
 
     def setShortcut(self, event, key, label, action, arg=False):
         if not self.k:

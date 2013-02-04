@@ -23,18 +23,18 @@ class Editor(pygame.Rect):
 
     def create(self):
         self.menu = Menu((0, screenSize[1] * res), False)
-        self.menu.append((0, 0, 32, 32), ("Save",), (self.map.save))
-        self.menu.append((32, 0, 32, 32), ("Pen",), (self.tool, 0), Toggle=0)
-        self.menu.append((64, 0, 32, 32), ("Box",), (self.tool, 1), Toggle=0)
+        self.menu.append((0, 0, 32, 32), ("Save",), self.map.save)
+        self.menu.append((32, 0, 32, 32), ("Pen",), (self.tool, 0), Toggle=4)
+        self.menu.append((64, 0, 32, 32), ("Box",), (self.tool, 1), Toggle=4)
         self.menu.append((96, 0, 32, 32), ("Tiles",), (self.tileType, -1), Toggle=1)
         self.menu.append((196, 0, 100, 32), ("Wall",), (self.tileType, 1), Toggle=1)
         self.menu.append((296, 0, 100, 32), ("Empty",), (self.tileType, 0), Toggle=1)
         self.menu.append((396, 0, 100, 32), ("Death",), (self.tileType, 4), Toggle=1)
-        self.menu.append((500, 0, 100, 32), ("Collision",), (self.toggleCollision), Toggle=3)
+        self.menu.append((500, 0, 100, 32), ("Collision",), self.toggleCollision, Toggle=3)
         self.menu.select("Pen").toggledOn = True
         self.menu.select("Wall").toggledOn = True
         for i in range(TILE_SET_LENGTH):
-            surf = pygame.surface.Surface((30, 30))
+            surf = Surface((30, 30))
             surf.blit(self.map.tileset, pygame.Rect(-1, -i * res, res - 2, res - 2))
             self.menu.append((32 * i, 32, 32, 32), ("", str(i)), (self.tileTile, i), Image=surf, Toggle=2)
 
@@ -42,21 +42,21 @@ class Editor(pygame.Rect):
         self.collisionToggle = not self.collisionToggle
 
     def pen(self, key):
-        tile = (int((key[0] + self.camera.x) / res), int((key[1] + self.camera.y) / res))
-        if self.tileType == -1:
-            self.map.setTile(tile[0], tile[1], self.tileTile)
-        elif self.tileType >= 0:
-            self.map.setType(tile[0], tile[1], self.tileType)
-            self.mChange.apppend(tile)
+        x, y = int((key[0] + self.camera.x) / res), int((key[1] + self.camera.y) / res)
+        if 0 <= x <= screenSize[0] and 0 <= y <= screenSize[1]:
+            if self.tileType == -1:
+                self.map(x, y).tile = self.tileTile
+            elif self.tileType >= 0:
+                self.map(x, y).type = self.tileType
+                self.mChange.append((x, y))
 
     def box(self, input):
         """self.mChange.append(box)"""
 
     def drawMap(self):
         for i, e in self.mChange:
-            col = {0: False, 1: (0, 0, 255), 2: (0, 255, 0), 3: (255, 0, 255), 4: (255, 0, 0)}[self.map(i, e).type]
-            if col:
-                pygame.draw.rect(self._acmap, col,  (i * res, e * res, res, res))
+            col = {0: (0, 0, 0), 1: (0, 0, 255), 2: (0, 255, 0), 3: (255, 0, 255), 4: (255, 0, 0)}[self.map(i, e).type]
+            pygame.draw.rect(self._acmap, col,  (i * res, e * res, res, res))
 
     def draw(self, surface, camera):
         if self.collisionToggle:

@@ -1,6 +1,7 @@
 import main
 from display import *
 from gconstants import *
+from input import *
 from pygame import Rect, Surface, MOUSEBUTTONDOWN
 
 
@@ -8,14 +9,28 @@ class Menu(object):
     def __init__(self, Pos, Showing):
         self.rect = Rect(Pos[0], Pos[1], screenSize[0] * res, screenSize[1] * res)
         self.items = {}
+        self.input = Input(None, "MENU")
+        self.tGroups = {}
 
     def append(self, Rect, Text, Actions, Colors=((255, 0, 0), (0, 0, 255), (0, 255, 0)), Image=False, Toggle=None):
         rect = (Rect[0] + self.rect.x, Rect[1] + self.rect.y, Rect[2], Rect[3])
+
         if len(Text) == 1:
             newItem = Text[0].lower()
         else:
             newItem = Text[1].lower()
-        self.items[newItem] = MenuItem(Actions, rect, Colors[0], Colors[1], Text[0], Colors[2], Image, Toggle)
+
+        if isinstance(Actions, tuple):
+            self.input.setShortcut(MOUSEBUTTONDOWN, newItem, newItem, Actions[0], Actions[1])
+        else:
+            self.input.setShortcut(MOUSEBUTTONDOWN, newItem, newItem, Actions)
+
+        if Toggle is not None and self.tGroups.get(Toggle):
+            self.tGroups[Toggle].append(newItem)
+        else:
+            self.tGroups[Toggle] = [newItem]
+
+        self.items[newItem] = MenuItem(rect, newItem, Text[0], Actions, Colors[0], Colors[1], Colors[2], Image, Toggle)
 
     def animate(self, animation):
         """"""
@@ -24,32 +39,36 @@ class Menu(object):
         return self.items[key.lower()]
 
     def tick(self, input):
+        result = []
         for event, key in input:
             for item in self.items.values():
-                item.tick(event, self.rect, key)
-        for item in self.items.values():
-            if item.changed:
-                for key2, item2 in self.items.items():
-                    if item != item2 and item.toggle == item2.toggle and item.changed == False:
-                        item2.toggledOn = False
+                itemClicked = item.tick(event, self.rect, key)
+                if itemClicked:
+                    result.append((MOUSEBUTTONDOWN, itemClicked))
+                    if item.changed and item.toggle:
+                        for i in self.tGroups[item.toggle]:
+                            if item.ident != i:
+                                self.items[i].toggledOn = False
+        self.input(result)
 
     def draw(self, surface):
         for item in self.items.values():
             item.display(surface, item, "menu")
 
 
-class MenuItem(pygame.Rect):
-    def __init__(self, Action, Rec, RColor, OColor, Text, TColor, Image, Toggle):
+class MenuItem(Rect):
+    def __init__(self, Rec, Ident, Text, Action, RColor, OColor, TColor, Image, Toggle):
         self.rect = Rect(Rec)
-        if isinstance(Action, list):
-            self.action = Action
-        else:
-            self.action = [Action]
-        self.images = [pygame.surface.Surface((self.rect.w, self.rect.h)), pygame.surface.Surface((self.rect.w, self.rect.h))]
+        self.ident = Ident
+        self.images = [Surface((self.rect.w, self.rect.h)), Surface((self.rect.w, self.rect.h))]
         self.toggle = Toggle
         if self.toggle:
             self.toggledOn = False
             self.changed = False
+        if isinstance(Action, list):
+            self.action = Action
+        else:
+            self.action = [Action]
         self.display = Display(self, self.images[0], self.images[0], False)
 
         self.rcolor = RColor
@@ -98,21 +117,13 @@ class MenuItem(pygame.Rect):
         try:
             collide = self.rect.collidepoint(mPos)  # Fix this, stop the error rather than ignoring it
         except:
-            return
+            return None
         if self.toggle and self.toggledOn:
             self.display.image = self.images[1]
         else:
             self.display.image = self.images[collide]
-        if input == MOUSEBUTTONDOWN:
-            if collide:
-                if self.toggle:
-                    self.toggledOn = True
-                    self.changed = True
-                for i in self.action:
-                    if hasattr(self.action[0], "__call__"):
-                        if len(self.action) == 1:
-                            self.action[0]()
-                        else:
-                            self.action[0](self.action[1])
-                    else:
-                        self.action[0] = self.action[1]
+        if collide and input is MOUSEBUTTONDOWN:
+            if self.toggle:
+                self.toggledOn = True
+                self.changed = True
+            return self.ident

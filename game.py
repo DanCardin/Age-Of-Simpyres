@@ -16,10 +16,10 @@ class Game(object):
 
         self.menu = Menu((screenSize[0] * res / 2 - 50, screenSize[1] * res / 2 - 100), True)
         self.menu.append((-25, -100, 150, 100), ("Pygame Game!", "gamename"), (None, ""), ((0, 0, 0), (0, 0, 0), (155, 150, 0)))
-        self.menu.append((0, 0, 100, 48), ("Resume",), (self.resume))
-        self.menu.append((0, 50, 100, 48), ("Start",), (self.restart))
-        self.menu.append((0, 100, 100, 48), ("Settings",), (self.settings))
-        self.menu.append((0, 150, 100, 48), ("Exit",), (self.exit))
+        self.menu.append((0, 0, 100, 48), ("Resume",), self.resume)
+        self.menu.append((0, 50, 100, 48), ("Start",), self.restart)
+        self.menu.append((0, 100, 100, 48), ("Settings",), self.settings)
+        self.menu.append((0, 150, 100, 48), ("Exit",), self.exit)
 
         self.input = Input(settings, "GAME")
         self.input.setShortcut(pygame.KEYDOWN, pygame.K_m, "menu", self.showMenu)
