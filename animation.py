@@ -9,38 +9,38 @@ class Animation(object):
         self.anim = {"up": [], "down": [], "left": [], "right": [], "stop": []}
         tx, ty = Image.get_width() / self.tLength, Image.get_height()
         self.currAnim = 0
-        self.dir = Parent.dir
         self.prevDir = 0
         for i in range(self.tLength):
             ta = pygame.surface.Surface((tx, ty))
             ta.blit(Image, (-i * tx, 0, i * tx + tx, ty))
-            if i == 0:
-                self.anim["right"].append(ta)
-                self.anim["down"].append(ta)
-                self.anim["left"].append(pygame.transform.flip(ta, 1, 0))
-                self.anim["up"].append(pygame.transform.flip(ta, 1, 0))
-            else:
-                self.anim["stop"].append(ta)
-                self.anim["stop"].append(pygame.transform.flip(ta, 1, 0))
+
+            self.anim["up"].append(pygame.transform.rotate(ta, 0))
+            self.anim["right"].append(pygame.transform.rotate(ta, -90))
+            self.anim["down"].append(pygame.transform.rotate(ta, 180))
+            self.anim["left"].append(pygame.transform.rotate(ta, 90))
+            self.anim["stop"].append(pygame.transform.rotate(ta, 32 * i))
 
     def animate(self, direction):
-        img = self.parent.display.image
-        dir = direction * .5
+        direc = self.parent.dir
+        if direction > 0:
+            if self.currAnim >= self.tLength or self.prevDir != direc:
+                self.currAnim = 0
+        else:
+            if self.currAnim <= 0 or self.prevDir != direc:
+                self.currAnim = self.tLength - 1
         if self.parent:
-            if self.currAnim >= self.tLength:
-                self.currAnim = 0
-            if self.dir != self.dir:
-                self.currAnim = 0
-            if self.dir == (0, 0):
-                img = self.anim["stop"][self.currAnim]
-            if self.dir == (-1, 0):
-                img = self.anim["left"][self.currAnim]
-            if self.dir == (1, 0):
-                img = self.anim["right"][self.currAnim]
-            if self.dir == (0, -1):
-                img = self.anim["up"][self.currAnim]
-            if self.dir == (0, 1):
-                img = self.anim["down"][self.currAnim]
-            self.currAnim += 1
-        img = self.anim["right"][0]
-        self.prevDir = self.dir
+            if direc == (0, 0):
+                img = self.anim["stop"][floor(self.currAnim)]
+            elif direc == (-1, 0):
+                img = self.anim["left"][floor(self.currAnim)]
+            elif direc == (1, 0):
+                img = self.anim["right"][floor(self.currAnim)]
+            elif direc == (0, -1):
+                img = self.anim["up"][floor(self.currAnim)]
+            elif direc == (0, 1):
+                img = self.anim["down"][floor(self.currAnim)]
+        else:
+            img = self.anim["right"][floor(self.currAnim)]
+        self.currAnim += direction
+        self.prevDir = direc
+        self.parent.display.image = img

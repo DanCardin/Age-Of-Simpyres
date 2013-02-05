@@ -13,7 +13,7 @@ class Level(object):
         for i in []:  # self.map.objects:
             self.addEntity(i)
         self.entityId = 0
-        self.addEntity(entity=Enemy((64, 96, 20, 26), (4, 4), playerTileset, self))
+        self.addEntity(entity=Enemy((64, 96, 32, 32), (4, 4), playerTileset, self))
         self.position = Rect(100, 100, 1, 1)
         self.camera = Camera((0, 0, screenSize[0] * res, screenSize[1] * res), (screenSize[0] * res / 2, screenSize[1] * res / 2, 1, 1), self.map)
         self.editor = Editor(self.map, self.camera)
@@ -54,7 +54,7 @@ class Level(object):
         for entity in self.entities.values():
             if not entity.dead:
                 if hasattr(entity, "move"):
-                    entity.tick(entity.move(self.map, self.entities.values()))
+                    entity.tick(input, entity.move(self.map, self.entities.values()))
                 else:
                     entity.tick()
 

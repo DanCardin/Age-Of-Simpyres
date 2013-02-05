@@ -51,8 +51,9 @@ class Editor(pygame.Rect):
         self.collisionToggle = not self.collisionToggle
 
     def pen(self, key):
-        x, y = int((key[0] + self.camera.x) / res), int((key[1] + self.camera.y) / res)
-        if 0 <= x <= screenSize[0] and 0 <= y <= screenSize[1]:
+        print(key)
+        if 0 <= key[0] <= screenSize[0] and 0 <= key[1] <= screenSize[1]:
+            x, y = int((key[0] + self.camera.x) / res), int((key[1] + self.camera.y) / res)
             if self.tileType == -1:
                 self.map(x, y).tile = self.tileTile
             else:

@@ -27,7 +27,7 @@ class Display(object):
 
     def __call__(self, surface, camera, arm=False):
         if hasattr(self, "animation"):
-            self.animation.animate(1)
+            self.animation.animate(.5)
             if self.trans:
                 self.image.set_colorkey(self.transColor)
 
